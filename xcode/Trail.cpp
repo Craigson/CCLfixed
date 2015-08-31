@@ -14,31 +14,35 @@ Trail::Trail(){
 
 Trail::Trail(const glm::vec3& origin)
 {
-    ci::gl::VertBatch trail( GL_LINE_STRIP );
-    
-    
-    ci::ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.9f);
-    
-    trail.color( defaultColor );
+//    ci::gl::VertBatch trail( GL_LINE_STRIP );
+//    
+//    
+//    ci::ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.9f);
+//    
+//    trail.color( defaultColor );
     
     positions.push_back(origin);
+    
+    prevPos = origin;
+    const auto no_data_value = -123456;
 }
 
 
 void Trail::update(const glm::vec3& pos)
 {
-//    ci::gl::VertBatch trail( GL_LINE_STRIP );
-//    
-  positions.push_back(pos);
-//  //  ci::ColorAf defaultColor( );
+    const auto no_data_value = -123456;
+    if(glm::all(glm::greaterThan(pos, glm::vec3(no_data_value)))){
+    positions.push_back(prevPos);
+    } else {
+    positions.push_back(pos);
+    }
+
+    prevPos = pos;
 //    trail.color( ci::ColorAf(0.9f, 0.9f, 0.9f,0.9f) );
 //    
-//    for (int i = 0; i < positions.size(); i++)
-//    {
-//        trail.vertex(positions[i]);
-//    }
+//    trail.vertex(pos);
 //    
-//   trailBatch = ci::gl::Batch::create (trail, ci::gl::getStockShader( ci::gl::ShaderDef().color() ) );
+//    trailBatch = ci::gl::Batch::create (trail, ci::gl::getStockShader( ci::gl::ShaderDef().color() ) );
 //
 //    std::cout << positions.size() << std::endl;
 }
@@ -54,8 +58,9 @@ void Trail::render(){
         }
         ci::gl::end();
     }
+    
 //    ci::gl::lineWidth(5);
-//    trail.draw();
+//   trail.draw();
 //    trail.clear();
 //    //std::cout << "i'm drawing" << std::endl;
 

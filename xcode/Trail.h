@@ -26,5 +26,5 @@ public:
     
     ci::gl::BatchRef trailBatch;
     
-    
+    glm::vec3 prevPos;
 };

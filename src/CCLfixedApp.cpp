@@ -302,6 +302,9 @@ void CCLfixedApp::update()
     
     std::cout << getAverageFps() << std:: endl;
     // std::cout << "frame rate: " << getAverageFps() << ", frame count: " << FRAME_COUNT << std::endl;
+    
+    //define changed color
+    //mGlsl->uniform("uColor", changedColor);
 }
 
 //--------------------------- DRAW -----------------------------
@@ -499,7 +502,7 @@ void CCLfixedApp::setupShader(){
     //CHOOSE BETWEEN solidShader AND mGlsl AS SHADERS FOR THE SPHERES
     solidShader = gl::getStockShader( gl::ShaderDef().color() );
     mGlsl = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
-    mSphereBatch = gl::Batch::create( geom::Sphere(), solidShader );
+    mSphereBatch = gl::Batch::create( geom::Sphere(), mGlsl );
 }
 
 
