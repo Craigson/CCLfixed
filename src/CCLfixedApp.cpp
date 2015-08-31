@@ -11,6 +11,10 @@
 #include "CCL_MocapData.h"
 #include "Skeleton.h"
 
+/************* UI *************/
+#include "CinderImGui.h"
+/************* UI *************/
+
 
 using namespace ci;
 using namespace ci::app;
@@ -31,6 +35,10 @@ using namespace std;
 //const float DRAW_SCALE = 200;       //SCALE FOR DRAWING THE POINTS
 int FRAME_COUNT;
 int TOTAL_FRAMES;
+
+/************* UI *************/
+BOOL paused;
+/************* UI *************/
 
 glm::vec3 GRAVITY = vec3(0,0.5,0);
 
@@ -102,6 +110,13 @@ void CCLfixedApp::setup()
     
     mCamera.setFarClip(20000);
     
+    /************* UI *************/
+    
+    // THIS HAS BE DONE BEFORE "CameraUI" //
+    ui::initialize();
+    
+    /************* UI *************/
+    
     //mCamera.setEyePoint(vec3(0,200,650));
     mCamUi = CameraUi( &mCamera, getWindow() );
     
@@ -138,7 +153,7 @@ void CCLfixedApp::setup()
         framePositions.push_back( vec3( instanceX, instanceY, instanceZ));
     }
     
-    skeleton = Skeleton(framePositions);
+//    skeleton = Skeleton(framePositions);
     
     //std::cout << "positions: " << positions[0] << std::endl;
     
@@ -183,6 +198,12 @@ void CCLfixedApp::mouseDown( MouseEvent event )
 
 void CCLfixedApp::update()
 {
+    
+    /************* UI *************/
+    if( paused)
+        return;
+    /************* UI *************/
+    
     //  std::cout << mCamera.getEyePoint() << std::endl;
     
     //UPDATE POSITIONS
@@ -238,6 +259,22 @@ void CCLfixedApp::draw()
     
     gl::clear(Color(0.1f,0.1f,0.1f) );
     
+    /************* UI *************/
+    
+    static int frameRage = 12;
+    ui::InputInt("FPS", &frameRage);
+    setFrameRate(frameRage);
+    
+    if( ui::Button("PLAY") ){
+        paused = false;
+    }
+    if( ui::Button("PAUSE") ){
+        paused = true;
+    }
+    ui::SliderInt("PROGRESS", &FRAME_COUNT, 0, TOTAL_FRAMES);
+    
+    /************* UI *************/
+    
     gl::setMatrices( mCamera );
     
     
@@ -248,7 +285,7 @@ void CCLfixedApp::draw()
     //gl::ScopedModelMatrix modelScope;
     //mSphereBatch->drawInstanced( sizeOfBody );
     
-   // mSphereBatch->drawInstanced( jointList.size() );
+    mSphereBatch->drawInstanced( jointList.size() );
  //   skeleton.render();
 
 }

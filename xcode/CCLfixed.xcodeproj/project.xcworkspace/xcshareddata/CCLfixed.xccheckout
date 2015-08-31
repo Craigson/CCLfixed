@@ -10,10 +10,14 @@
 	<string>CCLfixed</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</key>
+		<string>https://github.com/ocornut/imgui.git</string>
 		<key>1417ACE4A0DFEC189602EEB5F6662BB37FE753C3</key>
 		<string>https://github.com/Craigson/CCLfixed.git</string>
 		<key>285F5777CC259704571E6C5E62E90242159E415E</key>
 		<string>https://github.com/streamna/CCL_Skeleton.git</string>
+		<key>2DEE13513E787DA04AD2C0CB3D93F067C441B880</key>
+		<string>https://github.com/simongeilfus/Cinder-ImGui.git</string>
 		<key>5570C0FDD803E9CE0DA9791D29C4D3269025286A</key>
 		<string>https://github.com/Craigson/CCL.git</string>
 	</dict>
@@ -21,10 +25,14 @@
 	<string>xcode/CCLfixed.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</key>
+		<string>../../..xcode/Cinder-ImGui/lib/imgui/</string>
 		<key>1417ACE4A0DFEC189602EEB5F6662BB37FE753C3</key>
 		<string>../../..</string>
 		<key>285F5777CC259704571E6C5E62E90242159E415E</key>
 		<string>../../../../CCL_Skeleton</string>
+		<key>2DEE13513E787DA04AD2C0CB3D93F067C441B880</key>
+		<string>../../..xcode/Cinder-ImGui/</string>
 		<key>5570C0FDD803E9CE0DA9791D29C4D3269025286A</key>
 		<string>../../../../CCL</string>
 	</dict>
@@ -59,6 +67,22 @@
 			<string>1417ACE4A0DFEC189602EEB5F6662BB37FE753C3</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CCLfixed</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2DEE13513E787DA04AD2C0CB3D93F067C441B880</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Cinder-ImGui</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>imgui</string>
 		</dict>
 	</array>
 </dict>
