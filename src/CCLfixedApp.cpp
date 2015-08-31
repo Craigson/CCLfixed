@@ -12,8 +12,6 @@
 #include "Skeleton.h"
 
 
-#include "skeletonParse.h"
-
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -213,12 +211,8 @@ void CCLfixedApp::update()
         *newPositions++ = framePositions[i];
     }
     
-    //CHECK WHETHER THE LIMBS ARE DISTORED
-    if (limbsDistorted){
-        skeleton.update(distortLimbs(framePositions,5));
-    } else {
-        skeleton.update(framePositions);
-    }
+
+     //   skeleton.update(framePositions);
     
     
     mInstanceDataVbo->unmap();
@@ -255,7 +249,7 @@ void CCLfixedApp::draw()
     //mSphereBatch->drawInstanced( sizeOfBody );
     
    // mSphereBatch->drawInstanced( jointList.size() );
-    skeleton.render();
+ //   skeleton.render();
 
 }
 

@@ -524,6 +524,6 @@ dependencies: \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/CCL_MocapJoint.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Jzon.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Skeleton.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Joint.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Bone.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/skeletonParse.h
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Node.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Spring.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/PhysicsJoint.h

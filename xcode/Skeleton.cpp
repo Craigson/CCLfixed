@@ -8,12 +8,19 @@
 
 #include "Skeleton.h"
 
+Skeleton::~Skeleton(){
+    for( std::vector<PhysicsJoint*>::iterator it = PhysicsJoints.begin(); it != PhysicsJoints.end(); ++it ){
+        delete *it;
+    }
+    PhysicsJoints.clear();
+}
+
 Skeleton::Skeleton(){}
 
 Skeleton::Skeleton(const std::vector<glm::vec3>& jointPos)
 {
-    boneJoints = jointPos;
     
+
     
     head = boneJoints[0];
     r_shoulder = boneJoints[6];
@@ -32,26 +39,27 @@ Skeleton::Skeleton(const std::vector<glm::vec3>& jointPos)
     l_hip = boneJoints[29];
     l_knee = boneJoints[43];
     l_foot = boneJoints[44];
-    
-    /*
-    for (int i = 0; i < boneJoints.size(); i++){
-        physicsJoints[i] = Joint(boneJoints[i]);
-    }
-    */
-    physicsJoints.push_back(Joint(r_shoulder));
-    physicsJoints.push_back(Joint(r_elbow));
-    physicsJoints.push_back(Joint(r_hand));
-    
-    float rUpperArm = distance(r_shoulder, r_elbow);
-    float rForeArm = distance(r_elbow, r_hand);
-    
-    physicsBones.push_back(Bone(&physicsJoints[0], &physicsJoints[1], rUpperArm));
-    physicsBones.push_back(Bone(&physicsJoints[1], &physicsJoints[2], rForeArm));
-    
-    
-     }
 
-void Skeleton::render()
+    
+    
+    
+    //, elbow, hand;
+   // Spring upperArm, foreArm;
+  //  float rUpperArm = distance(r_shoulder, r_elbow);
+//    float rForeArm = distance(r_elbow, r_hand);
+    
+//    shoulder = Node(r_shoulder);
+//    elbow = Node(r_elbow);
+//    hand = Node(r_hand);
+    
+    //Spring(Node *from, Node *to, float restLength, float stiffness, float damping)
+    
+  //  upperArm = Spring(&shoulder, &elbow, rUpperArm, 1,1);
+    
+}
+
+
+void Skeleton::draw()
     {
         ci::gl::color(1.,1.,1.);
         ci::gl::lineWidth(5);
@@ -81,12 +89,15 @@ void Skeleton::render()
         ci::gl::drawLine(l_hip, l_knee);
         ci::gl::drawLine(l_knee, l_foot);
         
-        for (auto j : physicsJoints){
-            j.display();
-        }
+
         
-        for (auto b : physicsBones){
-            b.display();
+//        shoulder.render();
+//        elbow.render();
+//        hand.render();
+//        
+//        upperArm.render();
+        for( std::vector<PhysicsJoint*>::iterator it = PhysicsJoints.begin(); it != PhysicsJoints.end(); ++it ){
+            (*it)->draw();
         }
 
     }
@@ -110,18 +121,38 @@ void Skeleton::update(const std::vector<glm::vec3>& pos){
     l_hip = boneJoints[29];
     l_knee = boneJoints[43];
     l_foot = boneJoints[44];
+//    
+//    shoulder.update();
+//    elbow.update();
+//    hand.update();
+//    
+//    upperArm.update();
+//
     
-   // std::cout << l_foot << std::endl;
-    
-    physicsJoints[0].location = r_shoulder;
-//    physicsJoints[1].location = r_elbow;
-//    physicsJoints[2].location = r_hand;
-    
-    for (auto j : physicsBones){
-        j.update();
+    for( std::vector<PhysicsJoint*>::iterator it = PhysicsJoints.begin(); it != PhysicsJoints.end(); ++it ){
+        (*it)->update();
     }
-    
-    //physicsBones[0].update();
-    
+    for (std::vector<Spring*>::iterator it = springs.begin(); it != springs.end(); ++it){
+        (*it)->update();
+    }
 }
 
+void Skeleton::addPhysicsJoint( PhysicsJoint *physicsJoint ){
+    PhysicsJoints.push_back( physicsJoint );
+}
+
+void Skeleton::destroyPhysicsJoint( PhysicsJoint *physicsJoint ){
+    std::vector<PhysicsJoint*>::iterator it = std::find( PhysicsJoints.begin(), PhysicsJoints.end(), physicsJoint );
+    delete *it;
+    PhysicsJoints.erase( it );
+}
+
+void Skeleton::addSpring(Spring *spring){
+    springs.push_back(spring);
+}
+
+void Skeleton::destroySpring(Spring *spring){
+    std::vector<Spring*>::iterator it; std::find(springs.begin(), springs.end(), spring);
+    delete *it;
+    springs.erase(it);
+}

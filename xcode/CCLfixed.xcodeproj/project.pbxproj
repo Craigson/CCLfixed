@@ -21,9 +21,10 @@
 		4433F3B41B93DB5A002EDBC3 /* CCL_MocapJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3AD1B93DB5A002EDBC3 /* CCL_MocapJoint.cpp */; };
 		4433F3B51B93DB5A002EDBC3 /* Jzon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3AF1B93DB5A002EDBC3 /* Jzon.cpp */; };
 		4433F3B61B93DB5A002EDBC3 /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3B11B93DB5A002EDBC3 /* Skeleton.cpp */; };
-		4433F3BD1B93DB7F002EDBC3 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3B71B93DB7F002EDBC3 /* Bone.cpp */; };
-		4433F3BE1B93DB7F002EDBC3 /* Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3B91B93DB7F002EDBC3 /* Joint.cpp */; };
 		4433F3BF1B93DB7F002EDBC3 /* skeletonParse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3BB1B93DB7F002EDBC3 /* skeletonParse.cpp */; };
+		4433F3C81B93EF63002EDBC3 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3C31B93EF63002EDBC3 /* Node.cpp */; };
+		4433F3C91B93EF63002EDBC3 /* Spring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3C51B93EF63002EDBC3 /* Spring.cpp */; };
+		4433F3CC1B94161D002EDBC3 /* PhysicsJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3CA1B94161D002EDBC3 /* PhysicsJoint.cpp */; };
 		4482A07F0E814921915A86CE /* CCLfixedApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -53,12 +54,13 @@
 		4433F3B01B93DB5A002EDBC3 /* Jzon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jzon.h; sourceTree = "<group>"; };
 		4433F3B11B93DB5A002EDBC3 /* Skeleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skeleton.cpp; sourceTree = "<group>"; };
 		4433F3B21B93DB5A002EDBC3 /* Skeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skeleton.h; sourceTree = "<group>"; };
-		4433F3B71B93DB7F002EDBC3 /* Bone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bone.cpp; sourceTree = "<group>"; };
-		4433F3B81B93DB7F002EDBC3 /* Bone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bone.h; sourceTree = "<group>"; };
-		4433F3B91B93DB7F002EDBC3 /* Joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Joint.cpp; sourceTree = "<group>"; };
-		4433F3BA1B93DB7F002EDBC3 /* Joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joint.h; sourceTree = "<group>"; };
 		4433F3BB1B93DB7F002EDBC3 /* skeletonParse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = skeletonParse.cpp; sourceTree = "<group>"; };
-		4433F3BC1B93DB7F002EDBC3 /* skeletonParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = skeletonParse.h; sourceTree = "<group>"; };
+		4433F3C31B93EF63002EDBC3 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		4433F3C41B93EF63002EDBC3 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		4433F3C51B93EF63002EDBC3 /* Spring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spring.cpp; sourceTree = "<group>"; };
+		4433F3C61B93EF63002EDBC3 /* Spring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spring.h; sourceTree = "<group>"; };
+		4433F3CA1B94161D002EDBC3 /* PhysicsJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsJoint.cpp; sourceTree = "<group>"; };
+		4433F3CB1B94161D002EDBC3 /* PhysicsJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsJoint.h; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* CCLfixed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCLfixed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA20F93460D1474A90C443BA /* CCLfixed_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = CCLfixed_Prefix.pch; sourceTree = "<group>"; };
@@ -99,9 +101,10 @@
 			isa = PBXGroup;
 			children = (
 				FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */,
-				4433F3B71B93DB7F002EDBC3 /* Bone.cpp */,
-				4433F3B91B93DB7F002EDBC3 /* Joint.cpp */,
 				4433F3B11B93DB5A002EDBC3 /* Skeleton.cpp */,
+				4433F3CA1B94161D002EDBC3 /* PhysicsJoint.cpp */,
+				4433F3C31B93EF63002EDBC3 /* Node.cpp */,
+				4433F3C51B93EF63002EDBC3 /* Spring.cpp */,
 				4433F3C01B93DEE9002EDBC3 /* data handlers */,
 			);
 			name = Source;
@@ -162,10 +165,10 @@
 				4433F3AC1B93DB5A002EDBC3 /* CCL_MocapData.h */,
 				4433F3AE1B93DB5A002EDBC3 /* CCL_MocapJoint.h */,
 				4433F3B01B93DB5A002EDBC3 /* Jzon.h */,
-				4433F3B81B93DB7F002EDBC3 /* Bone.h */,
-				4433F3BA1B93DB7F002EDBC3 /* Joint.h */,
-				4433F3BC1B93DB7F002EDBC3 /* skeletonParse.h */,
+				4433F3CB1B94161D002EDBC3 /* PhysicsJoint.h */,
 				4433F3B21B93DB5A002EDBC3 /* Skeleton.h */,
+				4433F3C41B93EF63002EDBC3 /* Node.h */,
+				4433F3C61B93EF63002EDBC3 /* Spring.h */,
 				DA20F93460D1474A90C443BA /* CCLfixed_Prefix.pch */,
 			);
 			name = Headers;
@@ -265,13 +268,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4482A07F0E814921915A86CE /* CCLfixedApp.cpp in Sources */,
+				4433F3CC1B94161D002EDBC3 /* PhysicsJoint.cpp in Sources */,
 				4433F3B61B93DB5A002EDBC3 /* Skeleton.cpp in Sources */,
 				4433F3BF1B93DB7F002EDBC3 /* skeletonParse.cpp in Sources */,
+				4433F3C91B93EF63002EDBC3 /* Spring.cpp in Sources */,
 				4433F3B31B93DB5A002EDBC3 /* CCL_MocapData.cpp in Sources */,
-				4433F3BD1B93DB7F002EDBC3 /* Bone.cpp in Sources */,
-				4433F3BE1B93DB7F002EDBC3 /* Joint.cpp in Sources */,
 				4433F3B51B93DB5A002EDBC3 /* Jzon.cpp in Sources */,
 				4433F3B41B93DB5A002EDBC3 /* CCL_MocapJoint.cpp in Sources */,
+				4433F3C81B93EF63002EDBC3 /* Node.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
