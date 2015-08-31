@@ -51,6 +51,9 @@ int TOTAL_FRAMES;
 
 /************* UI *************/
 BOOL paused;
+BOOL drawRibbons;
+BOOL drawPhysics;
+BOOL drawSkeleton;
 /************* UI *************/
 
 
@@ -105,7 +108,8 @@ public:
     
     Trail handTrail;
     
-    bool limbsDistorted;
+    bool limbsDistorted = false;
+    bool ribbonsActive = false;
 };
 
 
@@ -232,7 +236,7 @@ void CCLfixedApp::update()
 {
     
     /************* UI *************/
-    if( paused)
+    if(paused)
         return;
     /************* UI *************/
     
@@ -280,8 +284,7 @@ void CCLfixedApp::update()
     mInstanceDataVbo->unmap();
     // std::cout << "position: " << positions[0] << std::endl;
     
-    
-    updateRibbons();
+    if (!ribbonsActive)updateRibbons();
     
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -291,6 +294,7 @@ void CCLfixedApp::update()
         FRAME_COUNT = 0;
     }
     
+    std::cout << getAverageFps() << std:: endl;
     // std::cout << "frame rate: " << getAverageFps() << ", frame count: " << FRAME_COUNT << std::endl;
 }
 
@@ -313,6 +317,12 @@ void CCLfixedApp::draw()
     if( ui::Button("PAUSE") ){
         paused = true;
     }
+    
+    if (ui::Checkbox("DRAW RIBBONS", &ribbonsActive)){
+        ribbonsActive = true;
+    }
+    
+    
     ui::SliderInt("PROGRESS", &FRAME_COUNT, 0, TOTAL_FRAMES);
     
     /************* UI *************/
@@ -332,7 +342,7 @@ void CCLfixedApp::draw()
     
     //skeleton.renderStatic();
     
-    drawRibbons();
+    if (ribbonsActive)drawRibbons();
     
     handTrail.render();
 

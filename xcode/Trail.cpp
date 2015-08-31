@@ -39,6 +39,6 @@ void Trail::update(const glm::vec3& pos)
 void Trail::render(){
     ci::gl::lineWidth(5);
     mTrailMesh->draw();
-    std::cout << "i'm drawing" << std::endl;
+    //std::cout << "i'm drawing" << std::endl;
 
 }
