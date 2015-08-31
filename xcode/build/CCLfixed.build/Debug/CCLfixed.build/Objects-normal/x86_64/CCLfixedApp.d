@@ -527,6 +527,7 @@ dependencies: \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Joint.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Bone.h \
   /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/RibbonFunctions.h \
+  ../../../Cinder/include/cinder/Easing.h \
   ../../../Cinder/blocks/Cinder-ImGui/include/CinderImGui.h \
   /Users/Craig/Documents/cinder_glNext090/Cinder/blocks/Cinder-ImGui/lib/imgui/imgui.h \
   /Users/Craig/Documents/cinder_glNext090/Cinder/blocks/Cinder-ImGui/lib/imgui/imconfig.h

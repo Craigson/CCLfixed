@@ -11,6 +11,7 @@
 #include "CCL_MocapData.h"
 #include "Skeleton.h"
 #include "RibbonFunctions.h"
+#include "cinder/Easing.h"
 
 /************* UI *************/
 #include "CinderImGui.h"
@@ -29,8 +30,7 @@ struct Ribbon
     size_t            _joint_index = 0;
 };
 
-void updateRibbons();
-void updateSequence();
+
 
 /*----------------------- NOTES FOR IMPROVEMENTS ---------------------------
  
@@ -70,6 +70,10 @@ public:
     void initData();                                            //METHOD FOR IMPORTING JSON DATA
     void setupShader();
     
+    void drawRibbons();
+    void updateRibbons();
+    void updateSequence();
+    
     std::vector<vec3> distortLimbs(const std::vector<vec3>& normalLimbs, float scaleFactor);
     
     //CREATE A VERTEX BATCH FOR THE FLOOR MESH
@@ -90,14 +94,15 @@ public:
     
     //CREATE A CONTAINER TO STORE THE POSITION OF EACH JOINT FOR A SINGLE FRAME
     std::vector<glm::vec3> framePositions;
-    
+    std::vector<glm::vec3> distortedJoints;
+    std::vector<Ribbon> ribbons;
     
     typedef vector<glm::vec3>::size_type bodySize;
     // bodySize sizeOfBody = jointPositions.size();
     
     Skeleton skeleton;
     
-    std::vector<glm::vec3> distortedJoints;
+    
     
     bool limbsDistorted;
 };
@@ -197,7 +202,16 @@ void CCLfixedApp::setup()
         std::cout << "index: " << i << ", Joint name: " << jointList[i].jointName << std::endl;
     }
     
-    
+    //SETUP RIBBONS
+    for (auto i = 0; i < jointList.size(); i += 1)
+    {
+        auto r = Ribbon();
+        auto pos = framePositions[i];
+        r._spine.assign(16, pos);
+        r._joint_index = i;
+        r._target = pos;
+        ribbons.push_back(r);
+    }
     
 }
 
@@ -259,6 +273,7 @@ void CCLfixedApp::update()
     // std::cout << "position: " << positions[0] << std::endl;
     
     
+    updateRibbons();
     
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -307,6 +322,8 @@ void CCLfixedApp::draw()
     mSphereBatch->drawInstanced( jointList.size() );
     skeleton.renderPhysics(true);
     //skeleton.renderStatic();
+    
+    drawRibbons();
 
 }
 
@@ -321,7 +338,7 @@ void CCLfixedApp::mouseDrag( MouseEvent event )
 
 void CCLfixedApp::keyDown (KeyEvent event) {
 skeleton.pushone(vec3(200,200,0));
-} 
+}
 
 //------------------- SETUP THE ENVIRONMENT / GRID -----------------------
 
@@ -394,7 +411,8 @@ void CCLfixedApp::setupShader(){
 }
 
 
-//-------------------------------------------------------------
+
+//------------------------ DISTORT LIMBS ---------------------------------
 
 std::vector<glm::vec3> CCLfixedApp::distortLimbs(const std::vector<vec3> &normalLimbs, float scaleFactor){
     
@@ -408,10 +426,56 @@ std::vector<glm::vec3> CCLfixedApp::distortLimbs(const std::vector<vec3> &normal
     distortedVectors[8] = newWrist*2.0f;
     
     return distortedVectors;
-    
-    
 }
 
+//-------------------------UPDATE RIBBONS--------------------------------
+
+void CCLfixedApp::updateRibbons()
+{
+    auto easing = 0.5f;
+    int i = 0;
+    for (auto &r:ribbons)
+    {
+        auto target = framePositions[i];
+        const auto no_data_value = -123456;
+        if (glm::all(glm::greaterThan(target, vec3(no_data_value))))
+        {
+            r._target = target;
+        }
+        
+        auto &points = r._spine;
+        for (auto i = points.size() - 1; i > 0; i -= 1)
+        {
+            auto &p1 = points.at(i);
+            auto &p2 = points.at(i - 1);
+            p1 += (p2 - p1) * easing;
+        }
+        auto &point = points.at(0);
+        point += (r._target - point) * easing;
+    }
+    
+    for (auto &r: ribbons)
+    {
+        r._triangles = sansumbrella::createRibbon(12.0f, ci::EaseInOutQuad(), mCamera.getEyePoint(), r._spine);
+    }
+    
+    //  _camera.lookAt(currentJointPosition(0));
+}
+
+
+//--------------------- DRAW RIBBONS ---------------------------------
+
+void CCLfixedApp::drawRibbons(){
+    for (auto &ribbon: ribbons)
+    {
+        gl::begin(GL_TRIANGLE_STRIP);
+        for (auto &p : ribbon._triangles)
+        {
+            gl::vertex(p);
+        }
+        gl::end();
+    }
+}
 
 CINDER_APP( CCLfixedApp, RendererGl, [&]( App::Settings *settings ) {
     settings->setWindowSize( 1280, 720 );
