@@ -24,20 +24,21 @@ Trail::Trail(const glm::vec3& origin)
     positions.push_back(origin);
     
     prevPos = origin;
-    const auto no_data_value = -123456;
+    
+    threshold = 10000;
 }
 
 
 void Trail::update(const glm::vec3& pos)
 {
-    const auto no_data_value = -123456;
-    if(glm::all(glm::greaterThan(pos, glm::vec3(no_data_value)))){
+    if(pos.x > threshold || pos.x < threshold || pos.z > threshold || pos.z < threshold || pos.y > threshold || pos.y < threshold){
     positions.push_back(prevPos);
     } else {
     positions.push_back(pos);
     }
 
     prevPos = pos;
+  
 //    trail.color( ci::ColorAf(0.9f, 0.9f, 0.9f,0.9f) );
 //    
 //    trail.vertex(pos);
