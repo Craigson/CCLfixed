@@ -1,6 +1,6 @@
 dependencies: \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL_Skeleton/xcode/skeletonParse.cpp \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL_Skeleton/xcode/skeletonParse.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/skeletonParse.cpp \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/skeletonParse.h \
   ../../../Cinder/include/cinder/Utilities.h \
   ../../../Cinder/include/boost/lexical_cast.hpp \
   ../../../Cinder/include/boost/range/iterator_range_core.hpp \

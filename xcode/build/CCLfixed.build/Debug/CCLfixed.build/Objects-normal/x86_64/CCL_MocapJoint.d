@@ -1,6 +1,6 @@
 dependencies: \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapJoint.cpp \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapJoint.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/CCL_MocapJoint.cpp \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/CCL_MocapJoint.h \
   ../../../Cinder/include/cinder/Json.h \
   ../../../Cinder/include/cinder/Utilities.h \
   ../../../Cinder/include/boost/lexical_cast.hpp \

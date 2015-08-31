@@ -1,6 +1,6 @@
 dependencies: \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapData.cpp \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapData.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/CCL_MocapData.cpp \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/CCL_MocapData.h \
   ../../../Cinder/include/cinder/Json.h \
   ../../../Cinder/include/cinder/Utilities.h \
   ../../../Cinder/include/boost/lexical_cast.hpp \
@@ -421,5 +421,5 @@ dependencies: \
   ../../../Cinder/include/boost/intrusive/detail/list_node.hpp \
   ../../../Cinder/include/boost/intrusive/circular_list_algorithms.hpp \
   ../../../Cinder/include/boost/intrusive/detail/list_iterator.hpp \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapJoint.h \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/Jzon.h
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/CCL_MocapJoint.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCLfixed/xcode/Jzon.h
