@@ -14,7 +14,7 @@ public:
     Trail();
     Trail(const glm::vec3& origin);
     
-    ci::gl::VertBatchRef	mTrailMesh;
+    ci::gl::VertBatch trail;
     
     std::vector<glm::vec3> positions;
     
@@ -23,6 +23,8 @@ public:
     void update(const glm::vec3& pos);
     
     void render();
+    
+    ci::gl::BatchRef trailBatch;
     
     
 };

@@ -118,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */,
-				4433F3F11B94A69E002EDBC3 /* Trail.h */,
 				4433F3F01B94A69E002EDBC3 /* Trail.cpp */,
 				4433F3ED1B949EAA002EDBC3 /* RibbonFunctions.cpp */,
 				4433F3B11B93DB5A002EDBC3 /* Skeleton.cpp */,
@@ -190,6 +189,7 @@
 			children = (
 				4433F3AC1B93DB5A002EDBC3 /* CCL_MocapData.h */,
 				4433F3EE1B949EAA002EDBC3 /* RibbonFunctions.h */,
+				4433F3F11B94A69E002EDBC3 /* Trail.h */,
 				4433F3AE1B93DB5A002EDBC3 /* CCL_MocapJoint.h */,
 				4433F3E81B949380002EDBC3 /* Bone.h */,
 				4433F3EA1B949380002EDBC3 /* Joint.h */,

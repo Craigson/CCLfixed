@@ -54,6 +54,9 @@ BOOL paused;
 BOOL drawRibbons;
 BOOL drawPhysics;
 BOOL drawSkeleton;
+
+int CURRENT_DATA_SET = 0;
+int LOADED_DATA_SET = 0;
 /************* UI *************/
 
 
@@ -110,6 +113,9 @@ public:
     
     bool limbsDistorted = false;
     bool ribbonsActive = false;
+    bool trailsActive = true;
+    
+   // CCL_MocapData * mocapData;
 };
 
 
@@ -212,7 +218,7 @@ void CCLfixedApp::setup()
     {
         auto r = Ribbon();
         auto pos = framePositions[i];
-        r._spine.assign(16, pos);
+        r._spine.assign(10, pos);
         r._joint_index = i;
         r._target = pos;
         ribbons.push_back(r);
@@ -284,7 +290,7 @@ void CCLfixedApp::update()
     mInstanceDataVbo->unmap();
     // std::cout << "position: " << positions[0] << std::endl;
     
-    if (!ribbonsActive)updateRibbons();
+    if (ribbonsActive)updateRibbons();
     
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -325,7 +331,64 @@ void CCLfixedApp::draw()
     
     ui::SliderInt("PROGRESS", &FRAME_COUNT, 0, TOTAL_FRAMES);
     
-    /************* UI *************/
+    /********** DATA ____ GUI ***********************/
+    
+    vector<std::string> dataVector = {"CCL_JOINT_CCL3_00_skip10.json",
+        "CCL_JOINT_CCL4_00_skip4.json",
+        "CCL_JOINT_CCL4_01_skip4.json",
+        "CCL_JOINT_CCL4_02_skip4.json",
+        "CCL_JOINT_CCL4_03_skip8.json",
+        "CCL_JOINT_CCL4_04_skip8.json"};
+    
+    ui::ListBox("DATA", &CURRENT_DATA_SET, dataVector);
+    
+    if( CURRENT_DATA_SET != LOADED_DATA_SET){
+        //     paused = true;
+        
+        
+     //   jointList = {};
+        jointList = ccl::loadMotionCaptureFromJson(getAssetPath(dataVector[CURRENT_DATA_SET]));
+
+        FRAME_COUNT = 0;
+        TOTAL_FRAMES = jointList[0].jointPositions.size(); //SHOULD PROBABLY PUT A TRY/CATCH HERE
+        
+        std::cout << "total frames: " << TOTAL_FRAMES << ", total joints:"<< jointList.size() << std::endl;
+        
+        gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 16 ).radius(4) );
+        
+        //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
+        std::vector<glm::vec3> positions;
+        
+        // CREATE THE SPHERES AT THE INITIAL JOINT LOCATIONS
+        for ( int i = 0; i < jointList.size(); ++i ) {
+            glm::vec3 jointAt = jointList[i].jointPositions[i];
+            float instanceX = jointAt.x;
+            float instanceY = jointAt.y;
+            float instanceZ = jointAt.z;
+            // float instanceZ = 0;
+            
+            positions.push_back( vec3( instanceX, instanceY, instanceZ));
+        }
+        //std::cout << "positions: " << positions[0] << std::endl;
+        
+        // create the VBO which will contain per-instance (rather than per-vertex) data
+        mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_DYNAMIC_DRAW );
+        
+        // we need a geom::BufferLayout to describe this data as mapping to the CUSTOM_0 semantic, and the 1 (rather than 0) as the last param indicates per-instance (rather than per-vertex)
+        geom::BufferLayout instanceDataLayout;
+        
+        instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
+        
+        //NOW ADD IT TO THE VBO MESH THAT WE INITIAL CREATED FOR THE BODY / SKELETON
+        body->appendVbo( instanceDataLayout, mInstanceDataVbo );
+        
+        //FINALLY, BUILD THE BATCH, AND MAP THE CUSTOM_0 ATTRIBUTE TO THE "vInstancePosition" GLSL VERTEX ATTRIBUTE
+        mSphereBatch = gl::Batch::create( body, mGlsl, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
+        
+        LOADED_DATA_SET = CURRENT_DATA_SET;
+        
+    }
+    /********** DATA ____ GUI ***********************/
     
     gl::setMatrices( mCamera );
     
@@ -337,14 +400,14 @@ void CCLfixedApp::draw()
     //gl::ScopedModelMatrix modelScope;
     //mSphereBatch->drawInstanced( sizeOfBody );
     
-    //mSphereBatch->drawInstanced( jointList.size() );
+    mSphereBatch->drawInstanced( jointList.size() );
     //skeleton.renderPhysics(true);
     
     //skeleton.renderStatic();
     
     if (ribbonsActive)drawRibbons();
     
-    handTrail.render();
+    if(trailsActive)handTrail.render();
 
 }
 
@@ -408,8 +471,16 @@ void CCLfixedApp::renderScene()
 
 void CCLfixedApp::initData()
 {
+    
+    /********** DATA ____ GUI ***********************/
+    
+    //CCL_MocapData("CCL_JOINT_CCL3_00_skip10.json", jointList);
+    
+    /********** DATA ____ GUI ***********************/
+    jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL3_00_skip10.json"));
+    
     //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
-    jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
+    //-->   jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
    // jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL4_00.json"));
     //  jointList = ccl::loadMotionCaptureFromSite(Url(ccl::URL_STREAM_JSON), 1);
     //    CCL_MocapData(1, jointList); //UNCOMMENT THIS LINE TO CAPTURE NEW JSON DATA
@@ -478,7 +549,7 @@ void CCLfixedApp::updateRibbons()
     
     for (auto &r: ribbons)
     {
-        r._triangles = sansumbrella::createRibbon(40.0f, ci::EaseInOutQuad(), mCamera.getEyePoint(), r._spine);
+        r._triangles = sansumbrella::createRibbon(20.0f, ci::EaseInOutQuad(), mCamera.getEyePoint(), r._spine);
     }
     
     //  _camera.lookAt(currentJointPosition(0));
@@ -501,6 +572,7 @@ void CCLfixedApp::drawRibbons(){
     }
 }
 
-CINDER_APP( CCLfixedApp, RendererGl, [&]( App::Settings *settings ) {
+CINDER_APP( CCLfixedApp, RendererGl(RendererGl::Options().msaa( 16 ) ), [&]( App::Settings *settings ) {
     settings->setWindowSize( 1280, 720 );
+    
 } )

@@ -14,11 +14,12 @@ Trail::Trail(){
 
 Trail::Trail(const glm::vec3& origin)
 {
-    mTrailMesh = ci::gl::VertBatch::create( GL_LINES );
+    ci::gl::VertBatch trail( GL_LINE_STRIP );
     
-    ci::ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.1f);
     
-    mTrailMesh->color( defaultColor );
+    ci::ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.9f);
+    
+    trail.color( defaultColor );
     
     positions.push_back(origin);
 }
@@ -26,19 +27,36 @@ Trail::Trail(const glm::vec3& origin)
 
 void Trail::update(const glm::vec3& pos)
 {
-    positions.push_back(pos);
-    mTrailMesh->clear();
-    mTrailMesh->color( defaultColor );
-    for (int i = 0; i < positions.size(); i++)
-    {
-        mTrailMesh->vertex(positions[i]);
-    }
-    std::cout << positions.size() << std::endl;
+//    ci::gl::VertBatch trail( GL_LINE_STRIP );
+//    
+  positions.push_back(pos);
+//  //  ci::ColorAf defaultColor( );
+//    trail.color( ci::ColorAf(0.9f, 0.9f, 0.9f,0.9f) );
+//    
+//    for (int i = 0; i < positions.size(); i++)
+//    {
+//        trail.vertex(positions[i]);
+//    }
+//    
+//   trailBatch = ci::gl::Batch::create (trail, ci::gl::getStockShader( ci::gl::ShaderDef().color() ) );
+//
+//    std::cout << positions.size() << std::endl;
 }
 
 void Trail::render(){
-    ci::gl::lineWidth(5);
-    mTrailMesh->draw();
-    //std::cout << "i'm drawing" << std::endl;
+    {
+        ci::gl::enableAlphaBlending();
+        ci::ColorA moop(1.0,1.0,1.,0.4);
+        ci::gl::begin(GL_LINE_STRIP);
+        for (auto &p : positions)
+        {
+            ci::gl::vertex(p);
+        }
+        ci::gl::end();
+    }
+//    ci::gl::lineWidth(5);
+//    trail.draw();
+//    trail.clear();
+//    //std::cout << "i'm drawing" << std::endl;
 
 }

@@ -18,7 +18,7 @@ vector<vec3> createRibbon(float width, const std::function<float (float)> &shape
   vector<vec3> ribbon;
   ribbon.assign(spine.size() * 2, vec3(0));
 
-  auto half_width = [w = width * 0.5f, &shape_fn] (float v) {
+  auto half_width = [w = width * 0.3f, &shape_fn] (float v) {
     return w * shape_fn(v);
   };
 
