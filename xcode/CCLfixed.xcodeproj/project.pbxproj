@@ -98,14 +98,11 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */,
 				4433F3B71B93DB7F002EDBC3 /* Bone.cpp */,
 				4433F3B91B93DB7F002EDBC3 /* Joint.cpp */,
-				4433F3BB1B93DB7F002EDBC3 /* skeletonParse.cpp */,
-				FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */,
-				4433F3AB1B93DB5A002EDBC3 /* CCL_MocapData.cpp */,
-				4433F3AD1B93DB5A002EDBC3 /* CCL_MocapJoint.cpp */,
-				4433F3AF1B93DB5A002EDBC3 /* Jzon.cpp */,
 				4433F3B11B93DB5A002EDBC3 /* Skeleton.cpp */,
+				4433F3C01B93DEE9002EDBC3 /* data handlers */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -190,6 +187,17 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4433F3C01B93DEE9002EDBC3 /* data handlers */ = {
+			isa = PBXGroup;
+			children = (
+				4433F3BB1B93DB7F002EDBC3 /* skeletonParse.cpp */,
+				4433F3AF1B93DB5A002EDBC3 /* Jzon.cpp */,
+				4433F3AB1B93DB5A002EDBC3 /* CCL_MocapData.cpp */,
+				4433F3AD1B93DB5A002EDBC3 /* CCL_MocapJoint.cpp */,
+			);
+			name = "data handlers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

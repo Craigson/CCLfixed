@@ -12,8 +12,8 @@ public:
     //Joint *lchild,*mchild,*rchild, *parent;
 //    int lchild, mchild, rchild, parent;
 //    int degree;
-    float m = 8;
-    float damp = 0.5;
+    float m = 5;
+    float damp = 1;
 //    bool drag = false;
     
     ci::vec3 location;
@@ -34,7 +34,7 @@ public:
     void click(ci::vec3 po);
     void dragged(ci::vec3 po);
     
-    bool isFloppy;
+    bool isDataDriven;
     
     //    void push(ci::vec3 f, Node *n);
     //    void connect(Node *par);

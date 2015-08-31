@@ -34,6 +34,8 @@ using namespace std;
 int FRAME_COUNT;
 int TOTAL_FRAMES;
 
+glm::vec3 GRAVITY = vec3(0,0.5,0);
+
 class CCLfixedApp : public App {
 public:
     // static void prepareSettings( Settings *settings );

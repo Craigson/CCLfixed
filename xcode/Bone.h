@@ -3,7 +3,7 @@
 class Bone{
 public:
     float len;
-    float k=5;
+    float k=1.5;
     Joint *a,*b;
     
     Bone();

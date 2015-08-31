@@ -46,7 +46,7 @@ Joint::Joint(glm::vec3 loc){
     acceleration = vec3(0.0,0.0,0.0);
     dragOffset = vec3(0.0,0.0,0.0);
     
-    isFloppy = true;
+    isDataDriven = true;
 }
 
 void Joint::display(){
@@ -57,24 +57,28 @@ void Joint::display(){
 
 void Joint::update(){
     velocity+=(acceleration);
+    std::cout << "acc: " << acceleration<< std::endl;
     velocity*=damp;
     location+=velocity;
+    //std::cout << "velocity: " << velocity << std::endl;
     acceleration*=0;
 }
 
 void Joint::applyForce(ci::vec3 f){
     vec3 force =f;
+    //std::cout << force << std:: endl;
     force/=m;
+    
     acceleration+=force;
 }
 
 
 void Joint::update1( ci::vec3 newloc){
-    location = newloc;
     
     velocity+=(acceleration);
     velocity*=damp;
     location+=velocity;
+    
     acceleration*=0;
 }
 

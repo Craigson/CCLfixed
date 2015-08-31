@@ -117,14 +117,11 @@ void Skeleton::update(const std::vector<glm::vec3>& pos){
 //    physicsJoints[1].location = r_elbow;
 //    physicsJoints[2].location = r_hand;
     
-    for (auto j : physicsJoints){
+    for (auto j : physicsBones){
         j.update();
     }
     
-    for (auto b : physicsBones){
-        b.update();
-    }
-    
+    //physicsBones[0].update();
     
 }
 

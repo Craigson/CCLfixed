@@ -19,21 +19,28 @@ void Bone::display(){
 
 void Bone::update(){
     ci::vec3 force = a->location - b->location;
-    float dis = distance(a->location, b->location);
+    float dis = distance(a->location, glm::vec3(0,0,0));
     
-    std::cout << a->location << " " << b->location << std::endl;
     
-    float stretch = dis -len;
+    //std::cout << a->location << " " << b->location << std::endl;
     
-   // std::cout << stretch << std::endl;
+    float stretch = dis - len;
+    
+   
     
     force = normalize(force);
-    force *= -1*k; //*stretch;
+    
+
+    force *= -1*k*stretch;
+    
+    std::cout << "force: " << force<< std::endl;
     
     a->applyForce(force);
-    //force*=-1;
+    force*=-1;
     b->applyForce(force);
     
+    a->update();
+    b->update();
     
 }
 
