@@ -25,7 +25,7 @@ using namespace std;
  CHANGE ALL vectors TO lists TO IMPROVE EFFICIENCY (AS NO RANDOM INDEX ACCESS IS
  REQUIRED - USE ITERS.
  
- 
+ ADD TOP, FRONT, SIDE VIEWS TO GUI
  
  
  
@@ -40,7 +40,6 @@ int TOTAL_FRAMES;
 BOOL paused;
 /************* UI *************/
 
-glm::vec3 GRAVITY = vec3(0,0.5,0);
 
 class CCLfixedApp : public App {
 public:
@@ -74,10 +73,6 @@ public:
     gl::GlslProgRef		mGlsl;
     gl::GlslProgRef     solidShader;
     
-    int numJoints;
-    
-    // create an array of initial per-instance positions laid out in a 2D grid
-    //std::vector<glm::vec3> jointPositions;
     
     //CREATE A CONTAINER TO STORE THE POSITION OF EACH JOINT FOR A SINGLE FRAME
     std::vector<glm::vec3> framePositions;
@@ -91,7 +86,6 @@ public:
     std::vector<glm::vec3> distortedJoints;
     
     bool limbsDistorted;
-    
 };
 
 
@@ -106,7 +100,9 @@ void CCLfixedApp::setup()
     setupEnviron( 5000, 5000, 100 );
     
     //SETUP THE CAMERA
-    mCamera.lookAt( vec3( 100, 100, 10 ), vec3( 0 ) );
+    mCamera.lookAt( vec3( 500, 500, 0 ), vec3( 0 ) );
+    
+    mCamera.setEyePoint(vec3(500,1000,0));
     
     mCamera.setFarClip(20000);
     
@@ -153,7 +149,11 @@ void CCLfixedApp::setup()
         framePositions.push_back( vec3( instanceX, instanceY, instanceZ));
     }
     
-//    skeleton = Skeleton(framePositions);
+    skeleton = Skeleton(framePositions);
+
+    
+    
+    
     
     //std::cout << "positions: " << positions[0] << std::endl;
     
@@ -235,6 +235,11 @@ void CCLfixedApp::update()
 
      //   skeleton.update(framePositions);
     
+    if (limbsDistorted){
+        skeleton.update(distortLimbs(framePositions,5));
+    } else {
+        skeleton.update(framePositions);
+    }
     
     mInstanceDataVbo->unmap();
     // std::cout << "position: " << positions[0] << std::endl;
@@ -286,7 +291,7 @@ void CCLfixedApp::draw()
     //mSphereBatch->drawInstanced( sizeOfBody );
     
     mSphereBatch->drawInstanced( jointList.size() );
- //   skeleton.render();
+    skeleton.render(true);
 
 }
 
@@ -346,6 +351,7 @@ void CCLfixedApp::initData()
 {
     //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
     jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
+   // jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL4_00.json"));
     //  jointList = ccl::loadMotionCaptureFromSite(Url(ccl::URL_STREAM_JSON), 1);
     //    CCL_MocapData(1, jointList); //UNCOMMENT THIS LINE TO CAPTURE NEW JSON DATA
     std::cout << jointList.size()<< endl;
@@ -366,29 +372,25 @@ void CCLfixedApp::setupShader(){
     mSphereBatch = gl::Batch::create( geom::Sphere(), solidShader );
 }
 
-//----------------------- DISTORT LIMBS -----------------------
-std::vector<glm::vec3> CCLfixedApp::distortLimbs(const std::vector<vec3>& normalLimbs, float scaleFactor){
+
+//-------------------------------------------------------------
+
+std::vector<glm::vec3> CCLfixedApp::distortLimbs(const std::vector<vec3> &normalLimbs, float scaleFactor){
     
-    //[8] r_elbow
-    //[9] r_upper_wrist
-    //[10] r_lower_wrist
-    //[12]r_thumb
-    //[13]r_pinky
+    std::vector<glm::vec3> distortedVectors = normalLimbs;
     
-    std::vector<vec3> distortedVectors = normalLimbs;
-    
-    glm::vec3 forearmDirection =  normalLimbs[8] - normalLimbs[9];
-    float forearmLength = distance(normalLimbs[9],normalLimbs[8]);
-    glm::vec3 newArm = normalize(forearmDirection);
+    glm::vec3 foreArmDirection = normalLimbs[8] - normalLimbs[9];
+    float forearm = distance(normalLimbs[9], normalLimbs[8]);
+    glm::vec3 newArm = normalize(foreArmDirection);
     glm::vec3 newWrist = normalLimbs[8] + newArm;
     
     distortedVectors[8] = newWrist*2.0f;
     
     return distortedVectors;
     
+    
 }
 
-//-------------------------------------------------------------
 
 CINDER_APP( CCLfixedApp, RendererGl, [&]( App::Settings *settings ) {
     settings->setWindowSize( 1280, 720 );

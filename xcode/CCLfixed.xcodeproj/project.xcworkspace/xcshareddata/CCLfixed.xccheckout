@@ -26,13 +26,13 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0C95EEA8FF0C0E695973CB8EA4E7E70E385D606F</key>
-		<string>../../..xcode/Cinder-ImGui/lib/imgui/</string>
+		<string>../../..xcode/Cinder-ImGui/lib/imgui</string>
 		<key>1417ACE4A0DFEC189602EEB5F6662BB37FE753C3</key>
 		<string>../../..</string>
 		<key>285F5777CC259704571E6C5E62E90242159E415E</key>
 		<string>../../../../CCL_Skeleton</string>
 		<key>2DEE13513E787DA04AD2C0CB3D93F067C441B880</key>
-		<string>../../..xcode/Cinder-ImGui/</string>
+		<string>../../..xcode/Cinder-ImGui</string>
 		<key>5570C0FDD803E9CE0DA9791D29C4D3269025286A</key>
 		<string>../../../../CCL</string>
 	</dict>
