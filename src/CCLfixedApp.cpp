@@ -109,7 +109,7 @@ void CCLfixedApp::setup()
     
     initData(); //IMPORT THE JSON DATA AND SORT IT INTO A LIST
     
-    limbsDistorted = true;
+    limbsDistorted = false;
     
     /* THIS JUST PRINTS OUT THE POSITIONS OF THE FIRST JOINT TO CHECK THAT IT'S LOADED CORRECTLY
      for (int i = 0; i < 1; i++){
@@ -252,10 +252,9 @@ void CCLfixedApp::draw()
     //gl::ScopedModelMatrix modelScope;
     //mSphereBatch->drawInstanced( sizeOfBody );
     
-    mSphereBatch->drawInstanced( jointList.size() );
+   // mSphereBatch->drawInstanced( jointList.size() );
     skeleton.render();
-    
-    
+
 }
 
 //------------------- MOUSE DRAGGED ------------------------------
