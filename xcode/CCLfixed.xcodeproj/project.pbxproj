@@ -30,6 +30,7 @@
 		4433F3EB1B949380002EDBC3 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3E71B949380002EDBC3 /* Bone.cpp */; };
 		4433F3EC1B949380002EDBC3 /* Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3E91B949380002EDBC3 /* Joint.cpp */; };
 		4433F3EF1B949EAA002EDBC3 /* RibbonFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3ED1B949EAA002EDBC3 /* RibbonFunctions.cpp */; };
+		4433F3F21B94A69E002EDBC3 /* Trail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4433F3F01B94A69E002EDBC3 /* Trail.cpp */; };
 		4482A07F0E814921915A86CE /* CCLfixedApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -74,6 +75,8 @@
 		4433F3EA1B949380002EDBC3 /* Joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joint.h; sourceTree = "<group>"; };
 		4433F3ED1B949EAA002EDBC3 /* RibbonFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RibbonFunctions.cpp; sourceTree = "<group>"; };
 		4433F3EE1B949EAA002EDBC3 /* RibbonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RibbonFunctions.h; sourceTree = "<group>"; };
+		4433F3F01B94A69E002EDBC3 /* Trail.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trail.cpp; sourceTree = "<group>"; };
+		4433F3F11B94A69E002EDBC3 /* Trail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trail.h; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* CCLfixed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCLfixed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA20F93460D1474A90C443BA /* CCLfixed_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = CCLfixed_Prefix.pch; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				FF1A95A204E641C0A0C1C03D /* CCLfixedApp.cpp */,
+				4433F3F11B94A69E002EDBC3 /* Trail.h */,
+				4433F3F01B94A69E002EDBC3 /* Trail.cpp */,
 				4433F3ED1B949EAA002EDBC3 /* RibbonFunctions.cpp */,
 				4433F3B11B93DB5A002EDBC3 /* Skeleton.cpp */,
 				4433F3E71B949380002EDBC3 /* Bone.cpp */,
@@ -299,6 +304,7 @@
 				4433F3B61B93DB5A002EDBC3 /* Skeleton.cpp in Sources */,
 				4433F3BF1B93DB7F002EDBC3 /* skeletonParse.cpp in Sources */,
 				4433F3B31B93DB5A002EDBC3 /* CCL_MocapData.cpp in Sources */,
+				4433F3F21B94A69E002EDBC3 /* Trail.cpp in Sources */,
 				4433F3B51B93DB5A002EDBC3 /* Jzon.cpp in Sources */,
 				4433F3EC1B949380002EDBC3 /* Joint.cpp in Sources */,
 				4433F3B41B93DB5A002EDBC3 /* CCL_MocapJoint.cpp in Sources */,

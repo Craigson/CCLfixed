@@ -12,6 +12,7 @@
 #include "Skeleton.h"
 #include "RibbonFunctions.h"
 #include "cinder/Easing.h"
+#include "Trail.h"
 
 /************* UI *************/
 #include "CinderImGui.h"
@@ -102,7 +103,7 @@ public:
     
     Skeleton skeleton;
     
-    
+    Trail handTrail;
     
     bool limbsDistorted;
 };
@@ -171,7 +172,7 @@ void CCLfixedApp::setup()
     skeleton = Skeleton(framePositions);
 
     
-    
+    handTrail = Trail(framePositions[17]);
     
     
     //std::cout << "positions: " << positions[0] << std::endl;
@@ -212,6 +213,9 @@ void CCLfixedApp::setup()
         r._target = pos;
         ribbons.push_back(r);
     }
+    
+    //SETUP TRAILS
+    
     
 }
 
@@ -259,6 +263,10 @@ void CCLfixedApp::update()
     for (int i = 0; i < framePositions.size(); i++){
         *newPositions++ = framePositions[i];
     }
+    
+    handTrail.update(framePositions[17]);
+    
+//    std::cout << framePositions[17] << std::endl;
     
 
      //   skeleton.update(framePositions);
@@ -319,11 +327,14 @@ void CCLfixedApp::draw()
     //gl::ScopedModelMatrix modelScope;
     //mSphereBatch->drawInstanced( sizeOfBody );
     
-    mSphereBatch->drawInstanced( jointList.size() );
-    skeleton.renderPhysics(true);
+    //mSphereBatch->drawInstanced( jointList.size() );
+    //skeleton.renderPhysics(true);
+    
     //skeleton.renderStatic();
     
     drawRibbons();
+    
+    handTrail.render();
 
 }
 
@@ -432,7 +443,7 @@ std::vector<glm::vec3> CCLfixedApp::distortLimbs(const std::vector<vec3> &normal
 
 void CCLfixedApp::updateRibbons()
 {
-    auto easing = 0.5f;
+    auto easing = 1.0f;
     int i = 0;
     for (auto &r:ribbons)
     {
@@ -452,11 +463,12 @@ void CCLfixedApp::updateRibbons()
         }
         auto &point = points.at(0);
         point += (r._target - point) * easing;
+        i++;
     }
     
     for (auto &r: ribbons)
     {
-        r._triangles = sansumbrella::createRibbon(12.0f, ci::EaseInOutQuad(), mCamera.getEyePoint(), r._spine);
+        r._triangles = sansumbrella::createRibbon(40.0f, ci::EaseInOutQuad(), mCamera.getEyePoint(), r._spine);
     }
     
     //  _camera.lookAt(currentJointPosition(0));
@@ -468,6 +480,8 @@ void CCLfixedApp::updateRibbons()
 void CCLfixedApp::drawRibbons(){
     for (auto &ribbon: ribbons)
     {
+        gl::enableAlphaBlending();
+        ColorA moop(1.0,1.0,1.,0.4);
         gl::begin(GL_TRIANGLE_STRIP);
         for (auto &p : ribbon._triangles)
         {
