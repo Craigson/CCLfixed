@@ -13,6 +13,7 @@
 #include "RibbonFunctions.h"
 #include "cinder/Easing.h"
 #include "Trail.h"
+#include "CCL_Dancer.h"
 
 /************* UI *************/
 #include "CinderImGui.h"
@@ -57,6 +58,27 @@ BOOL drawSkeleton;
 
 int CURRENT_DATA_SET = 0;
 int LOADED_DATA_SET = 0;
+
+//VARIABLES FOR MULTIPLE DANCERS
+bool isDancer1 = true;
+int fpsDancer1 = 24;
+
+bool isDancer2 = false;
+int fpsDancer2 = 60;
+
+bool isDancer3 = false;
+int fpsDancer3 = 60;
+
+bool isDancer4 = false;
+int fpsDancer4 = 60;
+
+bool isDancer5 = false;
+int fpsDancer5 = 30;
+
+bool isDancer6 = false;
+int fpsDancer6 = 30;
+
+int CinderFrameReate = 60;
 /************* UI *************/
 
 
@@ -107,15 +129,19 @@ public:
     typedef vector<glm::vec3>::size_type bodySize;
     // bodySize sizeOfBody = jointPositions.size();
     
-    Skeleton skeleton;
+   // Skeleton skeleton;
     
-    Trail handTrail;
+   // Trail handTrail;
     
     bool limbsDistorted = false;
     bool ribbonsActive = false;
     bool trailsActive = true;
     
    // CCL_MocapData * mocapData;
+    
+    
+    void loadDancers();
+    std::vector<CCL_Dancer> dancers;
 };
 
 
@@ -146,9 +172,9 @@ void CCLfixedApp::setup()
     //mCamera.setEyePoint(vec3(0,200,650));
     mCamUi = CameraUi( &mCamera, getWindow() );
     
-    setupShader();
+    //setupShader();
     
-    initData(); //IMPORT THE JSON DATA AND SORT IT INTO A LIST
+    //initData(); //IMPORT THE JSON DATA AND SORT IT INTO A LIST
     
     limbsDistorted = false;
     
@@ -162,57 +188,59 @@ void CCLfixedApp::setup()
     
     
     FRAME_COUNT = 0;
-    TOTAL_FRAMES = jointList[0].jointPositions.size(); //SHOULD PROBABLY PUT A TRY/CATCH HERE
+    //TOTAL_FRAMES = jointList[0].jointPositions.size(); //SHOULD PROBABLY PUT A TRY/CATCH HERE
+    TOTAL_FRAMES = 6400;
     
     std::cout << "total frames: " << TOTAL_FRAMES << std::endl;
     
-    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 16 ).radius(2) );
+//    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 16 ).radius(2) );
     
     
-    // CREATE THE SPHERES AT THE INITIAL JOINT LOCATIONS
-    for ( int i = 0; i < jointList.size(); ++i ) {
-        float instanceX = jointList[i].jointPositions[0].x;
-        float instanceY = jointList[i].jointPositions[0].y;
-        float instanceZ = jointList[i].jointPositions[0].z;
-        // float instanceZ = 0;
-        
-        framePositions.push_back( vec3( instanceX, instanceY, instanceZ));
-    }
-    
-    skeleton = Skeleton(framePositions);
+//    // CREATE THE SPHERES AT THE INITIAL JOINT LOCATIONS
+//    for ( int i = 0; i < jointList.size(); ++i ) {
+//        float instanceX = jointList[i].jointPositions[0].x;
+//        float instanceY = jointList[i].jointPositions[0].y;
+//        float instanceZ = jointList[i].jointPositions[0].z;
+//        // float instanceZ = 0;
+//        
+//        framePositions.push_back( vec3( instanceX, instanceY, instanceZ));
+//    }
+//    
+//    skeleton = Skeleton(framePositions);
 
     
-    handTrail = Trail(framePositions[17]);
+ //----------------   handTrail = Trail(framePositions[17]);
     
     
     //std::cout << "positions: " << positions[0] << std::endl;
     
     
     
-    // create the VBO which will contain per-instance (rather than per-vertex) data
-    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, framePositions.size() * sizeof(vec3), framePositions.data(), GL_DYNAMIC_DRAW );
-    
-    // we need a geom::BufferLayout to describe this data as mapping to the CUSTOM_0 semantic, and the 1 (rather than 0) as the last param indicates per-instance (rather than per-vertex)
-    geom::BufferLayout instanceDataLayout;
-    
-    instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
-    
-    //NOW ADD IT TO THE VBO MESH THAT WE INITIAL CREATED FOR THE BODY / SKELETON
-    body->appendVbo( instanceDataLayout, mInstanceDataVbo );
-    
-    //FINALLY, BUILD THE BATCH, AND MAP THE CUSTOM_0 ATTRIBUTE TO THE "vInstancePosition" GLSL VERTEX ATTRIBUTE
-    mSphereBatch = gl::Batch::create( body, mGlsl, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
-    
+//    // create the VBO which will contain per-instance (rather than per-vertex) data
+//    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, framePositions.size() * sizeof(vec3), framePositions.data(), GL_DYNAMIC_DRAW );
+//    
+//    // we need a geom::BufferLayout to describe this data as mapping to the CUSTOM_0 semantic, and the 1 (rather than 0) as the last param indicates per-instance (rather than per-vertex)
+//    geom::BufferLayout instanceDataLayout;
+//    
+//    instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
+//    
+//    //NOW ADD IT TO THE VBO MESH THAT WE INITIAL CREATED FOR THE BODY / SKELETON
+//    body->appendVbo( instanceDataLayout, mInstanceDataVbo );
+//    
+//    //FINALLY, BUILD THE BATCH, AND MAP THE CUSTOM_0 ATTRIBUTE TO THE "vInstancePosition" GLSL VERTEX ATTRIBUTE
+//    mSphereBatch = gl::Batch::create( body, mGlsl, { { geom::Attrib::CUSTOM_0, "vInstancePosition" } } );
+//    
     gl::enableDepthWrite();
     gl::enableDepthRead();
     
     //PRINT OUT JOINT INDEX AND NAME OF JOINT
     
-    for (int i = 0; i < jointList.size(); i++)
-    {
-        std::cout << "index: " << i << ", Joint name: " << jointList[i].jointName << std::endl;
-    }
-    
+//    for (int i = 0; i < jointList.size(); i++)
+//    {
+//        std::cout << "index: " << i << ", Joint name: " << jointList[i].jointName << std::endl;
+//    }
+  
+    /*
     //SETUP RIBBONS
     for (auto i = 0; i < jointList.size(); i += 1)
     {
@@ -225,7 +253,9 @@ void CCLfixedApp::setup()
     }
     
     //SETUP TRAILS
+    */
     
+    loadDancers();
     
 }
 
@@ -246,6 +276,31 @@ void CCLfixedApp::update()
         return;
     /************* UI *************/
     
+    //UPDATE VARIABLES FOR ALL DANCERS
+    if( isDancer1 ){
+        dancers[0].updateJointPositionAtFrame(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer2 ){
+        dancers[1].updateJointPositionAtFrame(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer3 ){
+        dancers[2].updateJointPositionAtFrame(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer4 ){
+        dancers[3].updateJointPositionAtFrame(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer5 ){
+        dancers[4].updateJointPositionAtFrame(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
+    if( isDancer6 ){
+        dancers[5].updateJointPositionAtFrame(FRAME_COUNT/(CinderFrameReate/fpsDancer1));
+    }
+    
     //  std::cout << mCamera.getEyePoint() << std::endl;
     
     //UPDATE POSITIONS
@@ -253,6 +308,7 @@ void CCLfixedApp::update()
     //WRITE NEW POSITIONS
     //UNMAP
     
+    /*
     glm::vec3 *newPositions = (glm::vec3*)mInstanceDataVbo->mapReplace();
     
     for( int i = 0; i < jointList.size(); ++i ) {
@@ -274,23 +330,25 @@ void CCLfixedApp::update()
         *newPositions++ = framePositions[i];
     }
     
-    handTrail.update(framePositions[17]);
+     */
+    
+  //  handTrail.update(framePositions[17]);
     
 //    std::cout << framePositions[17] << std::endl;
     
 
      //   skeleton.update(framePositions);
-    
+    /*
     if (limbsDistorted){
         skeleton.update(distortLimbs(framePositions,5));
     } else {
         skeleton.update(framePositions);
     }
-    
-    mInstanceDataVbo->unmap();
+    */
+    //mInstanceDataVbo->unmap();
     // std::cout << "position: " << positions[0] << std::endl;
     
-    if (ribbonsActive)updateRibbons();
+  //  if (ribbonsActive)updateRibbons();
     
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -334,8 +392,33 @@ void CCLfixedApp::draw()
     
     ui::SliderInt("PROGRESS", &FRAME_COUNT, 0, TOTAL_FRAMES);
     
-    /********** DATA ____ GUI ***********************/
+    vector<std::string> dataVector = {"CCL_JOINT_CCL3_00_skip10.json",
+        "CCL_JOINT_CCL4_00_skip4.json",
+        "CCL_JOINT_CCL4_01_skip4.json",
+        "CCL_JOINT_CCL4_02_skip4.json",
+        "CCL_JOINT_CCL4_03_skip8.json",
+        "CCL_JOINT_CCL4_04_skip8.json"};
     
+    ui::Checkbox("Dancer1", &isDancer1);
+    ui::InputInt("D1 FPS", &fpsDancer1);
+    
+    ui::Checkbox("Dancer2", &isDancer2);
+    ui::InputInt("D2 FPS", &fpsDancer2);
+    
+    ui::Checkbox("Dancer3", &isDancer3);
+    ui::InputInt("D3 FPS", &fpsDancer3);
+    
+    ui::Checkbox("Dancer4", &isDancer4);
+    ui::InputInt("D4 FPS", &fpsDancer4);
+    
+    ui::Checkbox("Dancer5", &isDancer5);
+    ui::InputInt("D5 FPS", &fpsDancer5);
+    
+    ui::Checkbox("Dancer6", &isDancer6);
+    ui::InputInt("D6 FPS", &fpsDancer6);
+    /********** DATA ____ GUI ***********************/
+   
+    /*
     vector<std::string> dataVector = {"CCL_JOINT_CCL3_00_skip10.json",
         "CCL_JOINT_CCL4_00_skip4.json",
         "CCL_JOINT_CCL4_01_skip4.json",
@@ -380,7 +463,7 @@ void CCLfixedApp::draw()
         // we need a geom::BufferLayout to describe this data as mapping to the CUSTOM_0 semantic, and the 1 (rather than 0) as the last param indicates per-instance (rather than per-vertex)
         geom::BufferLayout instanceDataLayout;
         
-        instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 /* per instance */ );
+        instanceDataLayout.append( geom::Attrib::CUSTOM_0, 3, 0, 0, 1 per instance  );
         
         //NOW ADD IT TO THE VBO MESH THAT WE INITIAL CREATED FOR THE BODY / SKELETON
         body->appendVbo( instanceDataLayout, mInstanceDataVbo );
@@ -391,6 +474,7 @@ void CCLfixedApp::draw()
         LOADED_DATA_SET = CURRENT_DATA_SET;
         
     }
+*/
     /********** DATA ____ GUI ***********************/
     
     gl::setMatrices( mCamera );
@@ -403,14 +487,40 @@ void CCLfixedApp::draw()
     //gl::ScopedModelMatrix modelScope;
     //mSphereBatch->drawInstanced( sizeOfBody );
     
-    mSphereBatch->drawInstanced( jointList.size() );
+    //mSphereBatch->drawInstanced( jointList.size() );
     //skeleton.renderPhysics(true);
     
     //skeleton.renderStatic();
     
-    if (ribbonsActive)drawRibbons();
     
-    if(trailsActive)handTrail.render();
+    if( isDancer1){
+        dancers[0].mSphereBatch->drawInstanced(dancers[0].jointSize);
+        
+    }
+    if( isDancer2){
+        dancers[1].mSphereBatch->drawInstanced(dancers[1].jointSize);
+        
+    }
+    if( isDancer3){
+        dancers[2].mSphereBatch->drawInstanced(dancers[2].jointSize);
+        
+    }
+    if ( isDancer4){
+        dancers[3].mSphereBatch->drawInstanced(dancers[3].jointSize);
+        
+    }
+    if( isDancer5){
+        dancers[4].mSphereBatch->drawInstanced(dancers[4].jointSize);
+        
+    }
+    if( isDancer6){
+        dancers[5].mSphereBatch->drawInstanced(dancers[5].jointSize);
+    }
+    
+    
+  //  if (ribbonsActive)drawRibbons();
+    
+ //   if(trailsActive)handTrail.render();
 
 }
 
@@ -424,7 +534,7 @@ void CCLfixedApp::mouseDrag( MouseEvent event )
 //--------------------  KEY DOWN -----------------------------
 
 void CCLfixedApp::keyDown (KeyEvent event) {
-skeleton.pushone(vec3(200,200,0));
+//skeleton.pushone(vec3(200,200,0));
 }
 
 //------------------- SETUP THE ENVIRONMENT / GRID -----------------------
@@ -478,19 +588,34 @@ void CCLfixedApp::initData()
     /********** DATA ____ GUI ***********************/
     
     //CCL_MocapData("CCL_JOINT_CCL3_00_skip10.json", jointList);
-    
-    /********** DATA ____ GUI ***********************/
-    jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL3_00_skip10.json"));
+//    
+//    /********** DATA ____ GUI ***********************/
+//    jointList = CCL_MocapData::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL3_00_skip10.json"));
+//    
+//    //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
+//    //-->   jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
+//   // jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL4_00.json"));
+//    //  jointList = ccl::loadMotionCaptureFromSite(Url(ccl::URL_STREAM_JSON), 1);
+//    //    CCL_MocapData(1, jointList); //UNCOMMENT THIS LINE TO CAPTURE NEW JSON DATA
+//    std::cout << jointList.size()<< endl;
+//    std::cout << endl;
+//    std::cout << endl;
+//    std::cout << endl;
     
     //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
-    //-->   jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
-   // jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT_CCL4_00.json"));
-    //  jointList = ccl::loadMotionCaptureFromSite(Url(ccl::URL_STREAM_JSON), 1);
-    //    CCL_MocapData(1, jointList); //UNCOMMENT THIS LINE TO CAPTURE NEW JSON DATA
+    /********** DATA ____ GUI ***********************/
+    
+    CCL_MocapData("CCL_JOINT_CCL3_00_skip10.json", jointList);
+    /********** DATA ____ GUI ***********************/
+    
+    //    CCL_MocapData(1, jointList);
+    // CCL_MocapData("CCL_JOINT_CCL4_00",jointList);
     std::cout << jointList.size()<< endl;
     std::cout << endl;
     std::cout << endl;
     std::cout << endl;
+    
+    CCL_Dancer("CCL_JOINT_CCL3_00_skip10.json", 10, 120);
     
     
 }
@@ -573,6 +698,32 @@ void CCLfixedApp::drawRibbons(){
         }
         gl::end();
     }
+}
+
+//----------------------LOAD DANCERS --------------------------------
+
+void CCLfixedApp::loadDancers(){
+    vector<std::string> dataVector = {"CCL_JOINT_CCL3_00_skip10.json",
+        "CCL_JOINT_CCL4_00_skip4.json",
+        "CCL_JOINT_CCL4_01_skip4.json",
+        "CCL_JOINT_CCL4_02_skip4.json",
+        "CCL_JOINT_CCL4_03_skip8.json",
+        "CCL_JOINT_CCL4_04_skip8.json"};
+    
+    CCL_Dancer dancer1 = CCL_Dancer(dataVector[0], 10, 120);
+    CCL_Dancer dancer2 = CCL_Dancer(dataVector[1], 4, 240);
+    CCL_Dancer dancer3 = CCL_Dancer(dataVector[2], 4, 240);
+    CCL_Dancer dancer4 = CCL_Dancer(dataVector[3], 4, 240);
+    CCL_Dancer dancer5 = CCL_Dancer(dataVector[4], 8, 240);
+    CCL_Dancer dancer6 = CCL_Dancer(dataVector[5], 8, 240);
+    
+    dancers.push_back(dancer1);
+    dancers.push_back(dancer2);
+    dancers.push_back(dancer3);
+    dancers.push_back(dancer4);
+    dancers.push_back(dancer5);
+    dancers.push_back(dancer6);
+    
 }
 
 CINDER_APP( CCLfixedApp, RendererGl(RendererGl::Options().msaa( 16 ) ), [&]( App::Settings *settings ) {
