@@ -10,6 +10,7 @@
 
 #include "CCL_MocapData.h"
 #include "Skeleton.h"
+#include "RibbonFunctions.h"
 
 /************* UI *************/
 #include "CinderImGui.h"
@@ -19,6 +20,17 @@
 using namespace ci;
 using namespace ci::app;
 using namespace std;
+
+struct Ribbon
+{
+    vec3              _target;
+    std::vector<vec3> _spine;
+    std::vector<vec3> _triangles;
+    size_t            _joint_index = 0;
+};
+
+void updateRibbons();
+void updateSequence();
 
 /*----------------------- NOTES FOR IMPROVEMENTS ---------------------------
  
@@ -50,6 +62,8 @@ public:
     void mouseDrag (MouseEvent event) override;
     void update() override;
     void draw() override;
+    
+    void keyDown(KeyEvent event) override;
     
     void setupEnviron( int xSize, int zSize, int spacing );     //METHOD FOR SETTING UP THE 3D ENVIRONMENT
     void renderScene();                                         //METHOD FOR RENDERING THE 3D ENVIRONMENT
@@ -302,6 +316,12 @@ void CCLfixedApp::mouseDrag( MouseEvent event )
 {
     mCamUi.mouseDrag( event );
 }
+
+//--------------------  KEY DOWN -----------------------------
+
+void CCLfixedApp::keyDown (KeyEvent event) {
+skeleton.pushone(vec3(200,200,0));
+} 
 
 //------------------- SETUP THE ENVIRONMENT / GRID -----------------------
 

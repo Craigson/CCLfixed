@@ -36,9 +36,9 @@ public:
 
     void renderPhysics(bool originOn);
     void update(const std::vector<glm::vec3>& positions);
+    void drawRibbon();
     
     void pushone( glm::vec3 f);
-    
     
 };
 

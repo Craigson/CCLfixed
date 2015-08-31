@@ -151,3 +151,8 @@ void Skeleton::pushone(glm::vec3 f){
     physicsJoints[1].applyForce( f );
 }
 
+void Skeleton::drawRibbon()
+{
+    
+}
+
