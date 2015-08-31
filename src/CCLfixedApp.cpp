@@ -291,7 +291,8 @@ void CCLfixedApp::draw()
     //mSphereBatch->drawInstanced( sizeOfBody );
     
     mSphereBatch->drawInstanced( jointList.size() );
-    skeleton.render(true);
+    skeleton.renderPhysics(true);
+    //skeleton.renderStatic();
 
 }
 

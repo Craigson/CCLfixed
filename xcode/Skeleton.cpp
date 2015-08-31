@@ -61,17 +61,9 @@ Skeleton::Skeleton(const std::vector<glm::vec3>& jointPos)
     
 }
 
-void Skeleton::render(bool originOn)
+void Skeleton::renderStatic()
 {
-    for (auto &j : physicsJoints){
-        j.display();
-    }
     
-    for (auto &b : physicsBones){
-        b.display();
-    }
-    
-    if (originOn) {
         ci::gl::color(1.,1.,1.);
         ci::gl::lineWidth(5);
         
@@ -96,9 +88,18 @@ void Skeleton::render(bool originOn)
         //LEFT LEG
         ci::gl::drawLine(l_hip, l_knee);
         ci::gl::drawLine(l_knee, l_foot);
-        
-        
+}
+    
+void Skeleton::renderPhysics(bool originOn)
+{
+    for (auto &j : physicsJoints){
+        j.display();
     }
+    
+    for (auto &b : physicsBones){
+        b.display();
+    }
+
 }
 
 

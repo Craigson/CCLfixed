@@ -32,7 +32,9 @@ public:
     
     std::vector<Bone> physicsBones;
     
-    void render(bool originOn);
+    void renderStatic();
+
+    void renderPhysics(bool originOn);
     void update(const std::vector<glm::vec3>& positions);
     
     void pushone( glm::vec3 f);
